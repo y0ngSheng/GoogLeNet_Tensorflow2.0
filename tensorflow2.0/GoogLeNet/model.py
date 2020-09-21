@@ -38,7 +38,7 @@ def GoogLeNet(im_height=224, im_width=224, class_num=1000, aux_logits=False):
 
     # (None, 14, 14, 528)
     x = Inception(256, 160, 320, 32, 128, 128, name="inception_4e")(x)
-    # (None, 14, 14, 532)
+    # (None, 14, 14, 832)
     x = layers.MaxPool2D(pool_size=3, strides=2, padding="SAME", name="maxpool_4")(x)
 
     # (None, 7, 7, 832)
@@ -54,7 +54,7 @@ def GoogLeNet(im_height=224, im_width=224, class_num=1000, aux_logits=False):
     x = layers.Dropout(rate=0.4, name="output_dropout")(x)
     x = layers.Dense(class_num, name="output_dense")(x)
     # (None, class_num)
-    ux3 = layers.Softmax(name="aux_3")(x)
+    aux3 = layers.Softmax(name="aux_3")(x)
 
     if aux_logits:
         model = models.Model(inputs=input_image, outputs=[aux1, aux2, aux3])
